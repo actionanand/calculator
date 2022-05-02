@@ -1,0 +1,15 @@
+<div class="toolbar" role="banner">
+  <h1>Calculator</h1>
+  <hr/><br/>
+
+  <div id="container">
+    <form name="calc">
+      <input id="inputBox" type="text" name="output" placeholder="0" disabled="disabled" class="disabledInput" [value]= "inputVals" />
+      <br/>
+
+      <button *ngFor="let b of buttonVals" (click)="getInput($event,b)">{{ b }}</button>
+    </form>
+  </div>
+
+  <br/><hr/>
+</div>

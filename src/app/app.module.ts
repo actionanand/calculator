@@ -5,13 +5,15 @@ import { AppComponent } from './app.component';
 import { BubblingTextDirective } from './directives/bubbling-text.directive';
 import { VantaComponent } from './components/vanta/vanta.component';
 import { TypeDeleteComponent } from './components/type-delete/type-delete.component';
+import { CalculatorComponent } from './components/calculator/calculator.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     BubblingTextDirective,
     VantaComponent,
-    TypeDeleteComponent
+    TypeDeleteComponent,
+    CalculatorComponent
   ],
   imports: [
     BrowserModule
