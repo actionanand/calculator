@@ -52,9 +52,23 @@ button {
   font-weight: bold;
   border-radius: 10%;
   box-shadow: 2px 2px 2px 0px rgba(0,0,0,0.7);
+  user-select: none;
 }
 
 button:hover {
   background-color: #8c8c8c;
   cursor: pointer;
+}
+
+.danger-btn {
+  // background-color: #ffff;
+  color: #b51111;
+  border-color: #b51111;
+  box-shadow: 2px 2px 2px 0px rgba(194, 6, 6, 0.7);;
+}
+
+.danger-btn:hover {
+  background-color: #d38585;
+  // color: #b51111;
+  color: unset;
 }
