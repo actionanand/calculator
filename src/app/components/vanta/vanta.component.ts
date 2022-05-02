@@ -7,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class VantaComponent implements OnInit {
 
+  textArray = ['Anand', 'Raja', 'Programming', 'is', 'an', 'art'];
+
   constructor() { }
 
   ngOnInit(): void {
