@@ -1,10 +1,4 @@
-import {
-  AfterViewInit,
-  Directive,
-  ElementRef,
-  Input,
-  Renderer2
-} from "@angular/core";
+import { AfterViewInit, Directive, ElementRef, Input, Renderer2 } from "@angular/core";
 
 @Directive({
   selector: "[bubblingText]"
@@ -14,6 +8,7 @@ export class BubblingTextDirective implements AfterViewInit {
   @Input() colorSchemeArray!: string[];
   @Input() position: "left" | "right" = "right";
   @Input() percentOfScreen = 30;
+  @Input() textOrCharArray!: string[];
 
   constructor(private elementRef: ElementRef, private renderer: Renderer2) {}
 
@@ -73,7 +68,7 @@ export class BubblingTextDirective implements AfterViewInit {
   private animateBackground(): void {
     const renderer = this.renderer;
     const elementRef = this.elementRef;
-    const chars = [...Array(26)].map((e, i) => (i + 10).toString(36));
+    const chars = this.textOrCharArray ? this.textOrCharArray : [...Array(26)].map((e, i) => (i + 10).toString(36));
 
     setInterval(() => {
       const duration = Math.floor(Math.random() * 15);
