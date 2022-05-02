@@ -7,11 +7,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CalculatorComponent implements OnInit {
 
-  buttonVals = ['1','2','3','/','4','5','6','X','7','8','9','-','(',')','0','+','c','.','=','%'];
+  buttonVals = ['1', '2', '3', '/', '4', '5', '6', 'X', '7', '8', '9', '-', '(', ')', '0', '+', 'Del', '.', '=', '%', 'AC'];
 
   operands = ['X', '/', '+', '%', '-', '='];
   parentheses = ['(', ')'];
-  actionBtns = ['c']
+  actionBtns = ['Del', 'AC']
 
   inputVals = '';
   prevOperand = '';
@@ -20,6 +20,8 @@ export class CalculatorComponent implements OnInit {
   curParenthesis = '';
   prevValue = '';
   curValue = '';
+  isPrevValueOperand = false;
+  isOperandOrValueAllowed = false;
 
   constructor() { }
 
@@ -31,16 +33,19 @@ export class CalculatorComponent implements OnInit {
 
     if(this.operands.indexOf(val) !== -1) {
       val == 'X' ? this.curOperand = '*' : this.curOperand = val;
-      this.operandLogic();
-      console.log('Operand ', val);
+      val == '=' ? this.computeTheExp() : this.operandLogic();
+      this.isPrevValueOperand = true;
     } else if (this.parentheses.indexOf(val) !== -1) {
-      this.curParenthesis = val;
-      this.parenthesesLogic();
-      console.log('parentheses Button ', val);
+        this.curParenthesis = val;
+        this.parenthesesLogic();
+        this.isPrevValueOperand = false;
+    } else if (this.actionBtns.indexOf(val) !== -1) {
+        this.actionLogic(val);
+        this.isPrevValueOperand = false;
     } else {
-      this.curValue = val;
-      this.valueLogic();
-      console.log('Other ', val);
+        this.curValue = val;
+        this.valueLogic();
+        this.isPrevValueOperand = false;
     }
 
     // if(val == 'X') {
@@ -62,10 +67,10 @@ export class CalculatorComponent implements OnInit {
 
   operandLogic() {
     if (this.prevOperand == this.curOperand) {
-      console.log('Same operand')
       return;
+    } else if (this.isPrevValueOperand) {
+      this.actionLogic('Del');
     }
-    console.log('diff operand')
     this.inputVals += this.curOperand;
     this.prevOperand = this.curOperand;
     this.prevParenthhesis = '';
@@ -74,10 +79,8 @@ export class CalculatorComponent implements OnInit {
 
   parenthesesLogic() {
     if (this.curParenthesis == this.prevParenthhesis) {
-      console.log('Same parenthesis')
       return;
     }
-    console.log('diff parenthes')
     this.inputVals += this.curParenthesis;
     this.prevParenthhesis = this.curParenthesis;
     this.prevOperand = '';
@@ -86,13 +89,30 @@ export class CalculatorComponent implements OnInit {
 
   valueLogic() {
     if(this.prevValue == this.curValue && this.prevValue == '.') {
-      console.log('again dot')
       return;
     }
     this.inputVals += this.curValue;
     this.prevValue = this.curValue;
     this.prevOperand = '';
     this.prevParenthhesis = '';
+  }
+
+  computeTheExp() {
+    this.inputVals = eval(this.inputVals);
+    this.prevOperand = '';
+    this.prevParenthhesis = '';
+    this.prevValue = '';
+  }
+
+  actionLogic(actionIn: string) {
+    if (actionIn == 'Del') {
+      this.inputVals = this.inputVals.slice(0, -1);
+    } else {
+      this.inputVals = '';
+      this.prevOperand = '';
+      this.prevParenthhesis = '';
+      this.prevValue = '';
+    }
   }
 
 }
