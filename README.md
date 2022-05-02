@@ -33,6 +33,8 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 - [Semver explained - why is there a caret (^) in my package.json?](https://bytearcher.com/articles/semver-explained-why-theres-a-caret-in-my-package-json/)
 - [npm-force-resolutions - npm](https://www.npmjs.com/package/npm-force-resolutions)
 - [How to deploy a React, Angular and Vue project to Github pages](https://deepinder.me/how-to-deploy-a-react-angular-vue-project-to-github-pages)
+- [Bubbling Text Background in Angular 10](https://codeburst.io/bubbling-text-background-in-angular-10-966702040770)
+- [An Infinite Type and Delete Animation in Angular 10](https://medium.com/swlh/an-infinite-type-and-delete-animation-in-angular-10-fc38d87d08ec)
 
 ## Further help
 
