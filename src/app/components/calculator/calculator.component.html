@@ -7,7 +7,7 @@
       <input id="inputBox" type="text" name="output" placeholder="0" disabled="disabled" class="disabledInput" [value]= "inputVals" />
       <br/>
 
-      <button *ngFor="let b of buttonVals" (click)="getInput($event,b)">{{ b }}</button>
+      <button *ngFor="let b of buttonVals" (click)="getInput($event,b)" type="button">{{ b }}</button>
     </form>
   </div>
 

@@ -11,7 +11,8 @@ export class CalculatorComponent implements OnInit {
 
   operands = ['X', '/', '+', '%', '-', '='];
   parentheses = ['(', ')'];
-  actionBtns = ['Del', 'AC']
+  actionBtns = ['Del', 'AC'];
+  allowedAtStart = [...Array(10)].map((e, i) => i.toString());
 
   inputVals = '';
   prevOperand = '';
@@ -26,47 +27,48 @@ export class CalculatorComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    this.allowedAtStart = [...this.allowedAtStart, '-', '+', '(', ')'];
   }
 
   getInput(e:any, val: string) {
-    e.preventDefault();
+    // e.preventDefault();
+    this.onCheckOperandOrValueAllowed(val);
 
-    if(this.operands.indexOf(val) !== -1) {
-      val == 'X' ? this.curOperand = '*' : this.curOperand = val;
-      val == '=' ? this.computeTheExp() : this.operandLogic();
-      this.isPrevValueOperand = true;
-    } else if (this.parentheses.indexOf(val) !== -1) {
-        this.curParenthesis = val;
+    if (this.isOperandOrValueAllowed) {
+      this.onCheckingCalcLogic(val);
+    }
+  }
+
+  onCheckingCalcLogic(pressedKey: string) {
+    if (this.operands.indexOf(pressedKey) !== -1) {
+      pressedKey == 'X' ? this.curOperand = '*' : this.curOperand = pressedKey;
+      if (pressedKey == '=') {
+        this.computeTheExp();
+      } else {
+        this.operandLogic();
+        this.isPrevValueOperand = true;
+      }
+      
+    } else if (this.parentheses.indexOf(pressedKey) !== -1) {
+        this.curParenthesis = pressedKey;
         this.parenthesesLogic();
         this.isPrevValueOperand = false;
-    } else if (this.actionBtns.indexOf(val) !== -1) {
-        this.actionLogic(val);
+    } else if (this.actionBtns.indexOf(pressedKey) !== -1) {
+        this.actionLogic(pressedKey);
         this.isPrevValueOperand = false;
     } else {
-        this.curValue = val;
+        this.curValue = pressedKey;
         this.valueLogic();
         this.isPrevValueOperand = false;
     }
-
-    // if(val == 'X') {
-    //   this.inputVals += "*";
-    // }
-    // else if(val == "=" && this.inputVals == '.') {
-    //   alert("Please enter a valid mathematical expression.");
-    // }
-    // else if(val == "=") {
-    //   this.inputVals = eval(this.inputVals);
-    // }
-    // else if(val == "c") {
-    //   this.inputVals = this.inputVals.slice(0,this.inputVals.length-1);
-    // }
-    // else {
-    //   this.inputVals += val;
-    // }
   }
 
   operandLogic() {
     if (this.prevOperand == this.curOperand) {
+      return;
+    } else if (this.isPrevValueOperand && this.allowedAtStart.indexOf(this.curOperand) !== -1) {
+      this.actionLogic('Del');
+    } else if (this.isPrevValueOperand && this.inputVals.length == 1) {
       return;
     } else if (this.isPrevValueOperand) {
       this.actionLogic('Del');
@@ -98,10 +100,14 @@ export class CalculatorComponent implements OnInit {
   }
 
   computeTheExp() {
-    this.inputVals = eval(this.inputVals);
+    if (this.prevValue == '.') {
+      this.inputVals += 0; 
+    }
+    this.inputVals = eval(this.inputVals).toString();
     this.prevOperand = '';
     this.prevParenthhesis = '';
-    this.prevValue = '';
+    this.isPrevValueOperand = false;
+    this.prevValue = this.inputVals;
   }
 
   actionLogic(actionIn: string) {
@@ -113,6 +119,17 @@ export class CalculatorComponent implements OnInit {
       this.prevParenthhesis = '';
       this.prevValue = '';
     }
+  }
+
+  onCheckOperandOrValueAllowed(pressedKey: string) {
+    if (this.inputVals.length > 0) {
+      this.isOperandOrValueAllowed = true;
+      return;
+    } else if (this.allowedAtStart.indexOf(pressedKey) !== -1) {
+      this.isOperandOrValueAllowed = true;
+      return;
+    }
+    this.isOperandOrValueAllowed = false;
   }
 
 }
