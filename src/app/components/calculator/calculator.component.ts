@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 
 @Component({
   selector: 'app-calculator',
@@ -24,6 +24,37 @@ export class CalculatorComponent implements OnInit {
   isPrevValueOperand = false;
   isOperandOrValueAllowed = false;
 
+  @HostListener('document:keyup', ['$event']) onGettingKeyBoardInputs($event: KeyboardEvent) {
+    // console.log('Through HostListener - Click Event Details: ', $event);
+    let pressedKey = $event.key;
+    this.onCheckOperandOrValueAllowed(pressedKey);
+
+    switch(pressedKey) {
+      case 'Enter':
+        pressedKey = '=';
+        break;
+      case ' ':
+        pressedKey = '=';
+        break;
+      case 'Delete':
+        pressedKey = 'Del';
+        break;
+      case 'Backspace':
+        pressedKey = 'Del';
+        break;
+      case 'x' || '*':
+        pressedKey = 'X';
+        break;
+      case '*':
+        pressedKey = 'X';
+        break;
+    }
+
+    if (this.isOperandOrValueAllowed && this.buttonVals.indexOf(pressedKey) !== -1) {
+      this.onCheckingCalcLogic(pressedKey);
+    }
+  }
+
   constructor() { }
 
   ngOnInit(): void {
@@ -38,6 +69,7 @@ export class CalculatorComponent implements OnInit {
       this.onCheckingCalcLogic(val);
     }
   }
+  
 
   onCheckingCalcLogic(pressedKey: string) {
     if (this.operands.indexOf(pressedKey) !== -1) {
