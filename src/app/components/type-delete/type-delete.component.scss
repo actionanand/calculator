@@ -1,0 +1,16 @@
+.type-delete-blink {
+  border-right-style: solid;
+  animation: 1s blink infinity;
+}
+
+@keyframes type-delete-blink {
+  to {
+    opacity: 0;
+  }
+}
+
+// .type-delete {
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+// }
